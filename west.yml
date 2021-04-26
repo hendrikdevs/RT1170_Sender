@@ -1,0 +1,24 @@
+# The west manifest for sender
+
+manifest:
+  defaults:
+    remote: upstream
+    
+  
+  remotes:
+    - name: upstream
+      url-base: git@git-hs.mittweida.de:heisenbl
+      
+    - name: zephyr-rtos
+      url-base: https://github.com/zephyrproject-rtos
+    
+      
+  projects:
+    - name: canopennode
+      path: modules/lib/canopennode
+      revision: 468d350028a975b96563e58344de48281a0ab371
+      
+    - name: defines
+
+  self:
+    path: sender
