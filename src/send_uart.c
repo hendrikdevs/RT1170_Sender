@@ -1,4 +1,4 @@
-#include "../../defines/can/message.h"
+#include "can/message.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -11,12 +11,12 @@ union Serialize {
     char buffer[sizeof(struct Message)];
 };
 
-void main(void){
+int main(void){
     int uart_fs = -1;
     uart_fs = open("/dev/ttyACM1", O_RDWR | O_NOCTTY | O_NDELAY);
     if(uart_fs == -1) {
         printf("[ERROR] UART open\n");
-        return;
+        return EXIT_FAILURE;
     }
 
     struct termios options;
@@ -35,7 +35,7 @@ void main(void){
     int tx_len = write(uart_fs, data.buffer, sizeof(data.buffer));
     if(tx_len < 0) {
         printf("[ERROR] UART write\n");
-        return;
+        return EXIT_FAILURE;
     }
 
     sleep(1);
@@ -46,7 +46,7 @@ void main(void){
     rx_len = read(uart_fs, rx_data.buffer, sizeof(struct Message));
     if(rx_len < 0){
         printf("[ERROR] UART read\n");
-        return;
+        return EXIT_FAILURE;
     } else if(rx_len == 0) {
         printf("[ERROR] No data\n");
     } else{
@@ -57,4 +57,5 @@ void main(void){
     }
 
     close(uart_fs);
+    return EXIT_SUCCESS;
 }
