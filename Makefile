@@ -6,7 +6,7 @@ default: main
 main: send_uart send_can
 
 send_uart: send_uart.o
-	gcc -o build/send build/send_uart.o
+	gcc -o build/send_uart build/send_uart.o
 
 send_uart.o: src/send_uart.c
 	gcc -Wall $(INC_DIR) -c src/send_uart.c -o build/send_uart.o
