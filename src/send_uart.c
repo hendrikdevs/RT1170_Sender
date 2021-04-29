@@ -5,6 +5,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 
 union Serialize {
     struct Message msg;
@@ -46,6 +47,7 @@ int main(void){
     rx_len = read(uart_fs, rx_data.buffer, sizeof(struct Message));
     if(rx_len < 0){
         printf("[ERROR] UART read\n");
+        printf("Error: %s\n", strerror(errno));
         return EXIT_FAILURE;
     } else if(rx_len == 0) {
         printf("[ERROR] No data\n");
