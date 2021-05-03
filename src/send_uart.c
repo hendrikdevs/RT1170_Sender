@@ -1,4 +1,4 @@
-#include "can/message.h"
+#include "../defines/message.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,11 +6,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-
-union Serialize {
-    struct Message msg;
-    char buffer[sizeof(struct Message)];
-};
 
 int main(void){
     int uart_fs = -1;
@@ -30,8 +25,8 @@ int main(void){
     tcsetattr(uart_fs, TCSANOW, &options);
 
     const struct Message msg = {0, 1000, "hello\0"};
-    union Serialize data;
-    data.msg = msg;
+    union Serialized_Message data;
+    data.message = msg;
 
     int tx_len = write(uart_fs, data.buffer, sizeof(data.buffer));
     if(tx_len < 0) {
@@ -42,7 +37,7 @@ int main(void){
     sleep(1);
 
     int rx_len;
-    union Serialize rx_data;
+    union Serialized_Message rx_data;
 
     rx_len = read(uart_fs, rx_data.buffer, sizeof(struct Message));
     if(rx_len < 0){
@@ -53,9 +48,9 @@ int main(void){
         printf("[ERROR] No data\n");
     } else{
         printf("Recieved: \n");
-        printf("prio: %d\n", rx_data.msg.priority);
-        printf("time: %d\n", rx_data.msg.sleep_in_ms);
-        printf("text: %s\n", rx_data.msg.text);
+        printf("prio: %d\n", rx_data.message.priority);
+        printf("time: %d\n", rx_data.message.sleep_in_ms);
+        printf("text: %s\n", rx_data.message.text);
     }
 
     close(uart_fs);
