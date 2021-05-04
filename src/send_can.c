@@ -26,6 +26,8 @@ int main(void)
     struct ifreq ifr;
     struct can_frame frame;
 
+    int nbytes;
+
     /* create CAN socket */
     if ((s = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0)
     {
