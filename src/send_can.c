@@ -10,7 +10,7 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
-#include "can/message.h"
+#include "message/message.h"
 
 int main(void) 
 {
