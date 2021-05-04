@@ -57,6 +57,25 @@ int main(void)
 		return 1;
 	}
 
+    printf("CAN Message send!\n");
+
+    /* read CAN frame */
+    nbytes = read(s, &frame, sizeof(struct can_frame));
+
+    if (nbytes < 0) {
+            perror("can raw socket read");
+            return 1;
+    }
+
+    /* paranoid check ... */
+    if (nbytes < sizeof(struct can_frame)) {
+            fprintf(stderr, "read: incomplete CAN frame\n");
+            return 1;
+    }
+
+    printf("CAN Frame read: %d\n", frame.can_id);
+
+    /* Close CAN socket */
 	if (close(s) < 0) {
 		perror("Close");
 		return 1;
