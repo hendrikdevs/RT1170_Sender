@@ -10,17 +10,10 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
-#include "message/message.h"
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 int main(void) 
 {
-    message_t message = 
-    {
-        .priority = 2,
-        .sleep_in_ms = 2000,
-        .text = "abcdefghi"
-    };
-
     int s; 
     struct sockaddr_can addr;
     struct ifreq ifr;
@@ -51,8 +44,14 @@ int main(void)
 
     /* send CAN frame */
 	frame.can_id = 0x1;
-	frame.can_dlc = 5;
-	sprintf(frame.data, "Hello");
+	frame.can_dlc = 8;
+    frame.data[0] = 1;
+    frame.data[1] = 200;
+    
+    char text[] = "hello";
+    const size_t data_text_size = MIN(sizeof(frame.data) - sizeof(frame.data[0]) * 2, sizeof(text));
+
+    memcpy(&frame.data[2], text, data_text_size);
 
 	if (write(s, &frame, sizeof(struct can_frame)) != sizeof(struct can_frame)) {
 		perror("Write");
