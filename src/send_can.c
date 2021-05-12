@@ -48,7 +48,7 @@ int main(void)
     frame.data[0] = 1;
     frame.data[1] = 200;
     
-    char text[] = "hello";
+    char text[] = "HALLO";
     const size_t data_text_size = MIN(sizeof(frame.data) - sizeof(frame.data[0]) * 2, sizeof(text));
 
     memcpy(&frame.data[2], text, data_text_size);
@@ -75,6 +75,15 @@ int main(void)
     }
 
     printf("CAN Frame read: %d\n", frame.can_id);
+
+    printf("CAN Frame read: %d\n", frame.data[0]);
+    printf("CAN Frame read: %d\n", frame.data[1]);
+    printf("CAN Frame read: %x\n", frame.data[2]);
+    printf("CAN Frame read: %x\n", frame.data[3]);
+    printf("CAN Frame read: %x\n", frame.data[4]);
+    printf("CAN Frame read: %x\n", frame.data[5]);
+    printf("CAN Frame read: %x\n", frame.data[6]);
+    printf("CAN Frame read: %x\n", frame.data[7]);
 
     /* Close CAN socket */
 	if (close(s) < 0) {
