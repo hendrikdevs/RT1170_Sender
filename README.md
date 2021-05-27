@@ -1,3 +1,3 @@
 # Sender
 
-Sendet CAN Nachrichten. Genutzt um die ThreadApp zu testen
+Sendet CAN/UART Nachrichten. Genutzt um die ThreadApp zu testen
